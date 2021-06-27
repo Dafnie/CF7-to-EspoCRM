@@ -13,7 +13,7 @@ $settings = get_option('cf7toespo-' . $form_fields->id);
     <h2><?php _e('Contact Form 7 to EspoCRM integration', 'wptoespo'); ?></h2>
 
     <label> 
-        <input type="checkbox" id="espo_enable" name="espo_enable" <?=($settings['espo_enable']) ? 'checked' : '' ?> />
+        <input type="checkbox" id="espo_enable" name="espo_enable" <?php echo ($settings['espo_enable']) ? 'checked' : '' ?> />
         <?php _e( ' Send to EspoCRM', 'wptoespo' ); ?></br></br>
     </label>
 
@@ -21,13 +21,13 @@ $settings = get_option('cf7toespo-' . $form_fields->id);
         <?php _e( 'EspoCRM url:' , 'wptoespo' );?></br>
         <input type="text" id="espo_url" name="espourl" class="large-text"
 placeholder=" <?php _e( 'https://my_espocrm.com or http://my_espocrm.com' , 'wptoespo' );?>"
-value=<?=$settings['espourl']; ?> >
+value=<?php echo $settings['espourl']; ?> >
         <p class="description" ><?php _e( 'URL to EspoCRM installation. - <strong>Important! - Use https to protect the API Key</strong>' , 'wptoespo' ); ?></p> 
     </label>
 
     <label>
         <?php _e( 'EspoCRM API User key:' , 'wptoespo' ); ?></br>
-        <input type="text" id="espo_username" name="espo_key" value=<?=$settings['espo_key']; ?>  >
+        <input type="text" id="espo_username" name="espo_key" value=<?php echo $settings['espo_key']; ?>  >
         <p class="description" ><?php _e( 'EspoCRM Authentication Method <strong>API Key</strong>. Example - <i>"a16756991fcbca5784f2a65d07db5b4e"</i>' , 'wptoespo' ); ?></p> 
     </label><br/>
 
@@ -35,8 +35,8 @@ value=<?=$settings['espourl']; ?> >
     <label>
         <?php _e( 'Contact Form 7 to EspoCRM entity:' , 'wptoespo' );?> </br>
         <select name="parent" id="espo_type">
-            <option value="Contact" <?=($settings['parent'] == 'Contact') ? 'selected' : '' ?> >Contact</option>
-            <option value="Lead" <?=($settings['parent'] == 'Lead') ? 'selected' : '' ?> >Lead</option>
+            <option value="Contact" <?php echo ($settings['parent'] == 'Contact') ? 'selected' : '' ?> >Contact</option>
+            <option value="Lead" <?php echo ($settings['parent'] == 'Lead') ? 'selected' : '' ?> >Lead</option>
         </select>  
     </label></br></br>
 
@@ -48,7 +48,7 @@ value=<?=$settings['espourl']; ?> >
         if ( empty($cf7_fields) || !$settings || $settings['error'] ) {
             _e( '<p class="regulat-text code red">Save to fetch fields</p>', 'wptoespo' );
         } else {
-            _mapping('parent_');
+            _cf7espo_mapping('parent_');
         } ?>
     </br>
 
@@ -62,7 +62,7 @@ value=<?=$settings['espourl']; ?> >
                 if ( $field->type == 'submit' ) {
                     continue;
                 }
-                echo '<option value="' . $field->name . '" ' . $selected . '>' . $field->name . '</option>';
+                _e('<option value="' . $field->name . '" ' . $selected . '>' . $field->name . '</option>', 'wptoespo' );
             } ?>
         </select>
         <p class="description" ><?php _e( 'Cancel the creation of parent type if the data in allready exits in EspoCRM. Child entity will allways be created', 'wptoespo' ); ?></p>
@@ -71,10 +71,10 @@ value=<?=$settings['espourl']; ?> >
     <hr>
         <?php _e( 'Create child entity:' , 'wptoespo' );?> </br>
         <select name="child" id="espo_ass_type">
-            <option value="None" <?=($settings['child'] == 'None') ? 'selected' : '' ?> >None</option>
-            <option value="Call" <?=($settings['child'] == 'Call') ? 'selected' : '' ?> >Call</option>
-            <option value="Task" <?=($settings['child'] == 'Task') ? 'selected' : '' ?> >Task</option>
-            <option value="Opportunity" <?=($settings['child'] == 'Opportunity') ? 'selected' : '' ?> >Opportunity</option>
+            <option value="None" <?php echo ($settings['child'] == 'None') ? 'selected' : '' ?> >None</option>
+            <option value="Call" <?php echo ($settings['child'] == 'Call') ? 'selected' : '' ?> >Call</option>
+            <option value="Task" <?php echo ($settings['child'] == 'Task') ? 'selected' : '' ?> >Task</option>
+            <option value="Opportunity" <?php echo ($settings['child'] == 'Opportunity') ? 'selected' : '' ?> >Opportunity</option>
         </select>
         <p class="description" ><?php _e( 'The selected entity will be linked to the main type' , 'wptoespo' ); ?></p></br>
 
@@ -84,20 +84,20 @@ value=<?=$settings['espourl']; ?> >
         if ( empty($cf7_fields) || !$settings || $settings['error'] ) {
             _e( '<p class="regulat-text code red">Save to fetch fields</p>', 'wptoespo' );
         } else {
-            _mapping('child_');
+            _cf7espo_mapping('child_');
         }
     } ?>
     </br>
 
 <?php
 // Helper to display field mapping
-function _mapping($type) {
+function _cf7espo_mapping($type) {
 
     $cf7_fields = WPCF7_ContactForm::get_current()->scan_form_tags();
     $settings = get_option('cf7toespo-' . wpcf7_get_current_contact_form()->id);
     $espo_fields = $settings[$type . 'espofilds'];
 
-    ?> <table class="<?=$type; ?>"> <?php
+    ?> <table class="<?php echo $type; ?>"> <?php
             // Get fields form CF7 form
             foreach ( $cf7_fields as $field ) {
 
@@ -106,21 +106,21 @@ function _mapping($type) {
                 } ?>
                 <tr>
                     <td class="cf7_fieldname">
-                        <?=$field->name . ' ->'; ?>
+                        <?php echo $field->name . ' ->'; ?>
                     </td>
                     <td>
-                        <select name="<?=$type . $field->name; //prefix "cf7_" added to identify the form fields in the POST later ?>">
+                        <select name="<?php echo $type . $field->name; //prefix "cf7_" added to identify the form fields in the POST later ?>">
 
                             <?php
                             $field_setting = $settings['mapping'][$type . $field->name];
                             $selected = ( $field_setting == 'none' ) ? ' selected ' : '';
-                            echo '<option value="none"' . $selected . '>' . __("- none -", "wptoespo") . '</option>';
+                            _e( '<option value="none"' . $selected . '>' . __("- none -", "wptoespo") . '</option>', 'wptoespo' );
                             // Get fields from the Espo entity
                             foreach ( $espo_fields[0] as $key=>$value ) {
                                 $disable = ( in_array($key, constant('CF7_ESPO_IGNORE_fIELD')) ) ? 'disabled' : ''; // disable some Espo options
                                 $selected = ($field_setting == $key) ? 'selected' : '';
 
-                                echo '<option value="' . $key . '"' . $disable . ' ' . $selected . ' >' . $key . '</option>';
+                                _e( '<option value="' . $key . '"' . $disable . ' ' . $selected . ' >' . $key . '</option>', 'wptoespo' );
                             } ?>
                         </select>
                     </td>
@@ -150,21 +150,21 @@ function _mapping($type) {
                 foreach( $fields as $key=>$field ) {
                 ?> <tr>
                     <td>
-                        <input type="text" class="<?=$type; ?>static" name="<?=$key; ?>" value="<?=$field; ?>" >
+                        <input type="text" class="<?php echo $type; ?>static" name="<?php echo $key; ?>" value="<?php echo $field; ?>" >
                     </td>
                     <td>
-                        <select name="<?=$key . '_espo'; ?>">
+                        <select name="<?php echo $key . '_espo'; ?>">
 
                             <?php
                             $field_setting = $settings['mapping'][$key . '_espo'];
-                            // $selected = ( $field_setting == 'none' ) ? ' selected ' : '';
-                            echo '<option value="none"' . $selected . '>' . __("- none -", "wptoespo") . '</option>';
+                            $selected = ( $field_setting == 'none' ) ? ' selected ' : '';
+                            echo wp_kses( '<option value="none"' . $selected . '>' . __("- none -", "wptoespo") . '</option>', ['option'] );
                             // Get fields from the Espo entity
                             foreach ( $espo_fields[0] as $key=>$value ) {
                                 $disable = ( in_array($key, constant('CF7_ESPO_IGNORE_fIELD')) ) ? 'disabled' : ''; // disable some Espo options
                                 $selected = ($field_setting == $key) ? 'selected' : '';
 
-                                echo '<option value="' . $key . '"' . $disable . ' ' . $selected . ' >' . $key . '</option>';
+                                echo wp_kses( '<option value="' . $key . '"' . $disable . ' ' . $selected . ' >' . $key . '</option>', ['option'] );
                             } ?>
                         </select>
                     </td>
@@ -174,7 +174,7 @@ function _mapping($type) {
             }
 
             ?> </table>
-            <button class="button-primary add_field" data-id="<?=$type; ?>">-> Add static field</button>
+            <button class="button-primary add_field" data-id="<?php echo $type; ?>">-> Add static field</button>
             <span class='info'><i> <?php _e('INFO: Saving empty fields will remove the fields', 'wptoespo'); ?></i></span>
             <?php
 }
