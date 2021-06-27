@@ -36,7 +36,7 @@ add_action( 'wpcf7_before_send_mail', function( $contact_form ) {
     // Send the main entity
     if ( $response_body->total == 0 || $settings['duplicate'] == 'off' ) { //Only create if EspoCRM response 0
 
-       $fields = _cf7espo__fetch_fields( $settings['mapping'], 'parent_' );
+       $fields = cf7espo_fetch_fields( $settings['mapping'], 'parent_' );
 
         $args = [
             'body' => wp_json_encode($fields),
@@ -53,7 +53,7 @@ add_action( 'wpcf7_before_send_mail', function( $contact_form ) {
     }
 
     // Cteate the child entity  
-    $fields = _cf7espo_fetch_fields( $settings['mapping'], 'child_' );
+    $fields = cf7espo_fetch_fields( $settings['mapping'], 'child_' );
     $body = array_merge([
         'parentId' => $parentid,
         'parentType' => $settings['parent']
@@ -74,7 +74,7 @@ add_action( 'wpcf7_before_send_mail', function( $contact_form ) {
 }, 10, 1 );
 
 
-function _cf7espo_fetch_fields( $settings, $entity ) {
+function cf7espo_fetch_fields( $settings, $entity ) {
 
     $fields = [];
         //Build array with field data

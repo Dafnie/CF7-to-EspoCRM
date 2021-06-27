@@ -48,7 +48,7 @@ value=<?php echo $settings['espourl']; ?> >
         if ( empty($cf7_fields) || !$settings || $settings['error'] ) {
             _e( '<p class="regulat-text code red">Save to fetch fields</p>', 'wptoespo' );
         } else {
-            _cf7espo_mapping('parent_');
+            cf7espo_mapping('parent_');
         } ?>
     </br>
 
@@ -84,14 +84,14 @@ value=<?php echo $settings['espourl']; ?> >
         if ( empty($cf7_fields) || !$settings || $settings['error'] ) {
             _e( '<p class="regulat-text code red">Save to fetch fields</p>', 'wptoespo' );
         } else {
-            _cf7espo_mapping('child_');
+            cf7espo_mapping('child_');
         }
     } ?>
     </br>
 
 <?php
 // Helper to display field mapping
-function _cf7espo_mapping($type) {
+function cf7espo_mapping($type) {
 
     $cf7_fields = WPCF7_ContactForm::get_current()->scan_form_tags();
     $settings = get_option('cf7toespo-' . wpcf7_get_current_contact_form()->id);

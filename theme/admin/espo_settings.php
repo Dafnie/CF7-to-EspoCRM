@@ -20,7 +20,7 @@ add_action( 'wpcf7_after_save', function( $instance ) {
 
     $error = new WP_Error();
     
-    $response = _cf7espo_fetch_espokeys( esc_html( $_POST['parent'] ) );
+    $response = cf7espo_fetch_espokeys( esc_html( $_POST['parent'] ) );
     if( is_wp_error($response) ) {
         $error->add( 'bad_url', $response->get_error_messages()[0] );
     } elseif ( $response['response']['code'] == 401 ) {
@@ -31,7 +31,7 @@ add_action( 'wpcf7_after_save', function( $instance ) {
         $parent_body = json_decode( $response['body'], true );
     }
     
-    $response = _cf7espo_fetch_espokeys( esc_html( $_POST['child'] ) );
+    $response = cf7espo_fetch_espokeys( esc_html( $_POST['child'] ) );
     if ( !$error->has_errors() ) {
         $child_body = json_decode( $response['body'], true );
     }
@@ -91,7 +91,7 @@ add_action( 'wpcf7_admin_notices', function() {
 }, 10, 2 );
 
 
-function _cf7espo_fetch_espokeys( $entity ) {
+function cf7espo_fetch_espokeys( $entity ) {
 
     $url = esc_url( $_POST['espourl'] . '/api/v1/' .  $entity . '?maxSize=1' );
     $response = wp_remote_get( $url, [
