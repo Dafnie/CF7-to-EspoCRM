@@ -4,6 +4,7 @@ Plugin Name: CF7 to EspoCRM
 Plugin URI: https://github.com/Dafnie/espocrm_integrator
 Description: Send data from Contact Form 7 form to your EspoCRM installation
 Version: 1.0
+Stable tag: 1.0
 Author: Carsten Gjedde
 Author URI: https://github.com/Dafnie
 Text Domain: WPtoEspo
