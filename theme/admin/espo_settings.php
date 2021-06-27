@@ -79,7 +79,7 @@ add_action('before_delete_post', function($postid, $postobject) {
 
 // Admin Notices
 add_action( 'wpcf7_admin_notices', function() {
-    $option = get_option( 'cf7toespo-' . $_GET['post']);
+    $option = get_option( 'cf7toespo-' . esc_html( $_GET['post'] ) );
 
     if ($option['error']) {
         echo '<div class="error"> <p>' . __( 'Ops, something went wrong.', 'wptoespo' ) . '</p>';
@@ -93,10 +93,10 @@ add_action( 'wpcf7_admin_notices', function() {
 
 function _fetch_espokeys( $entity ) {
 
-    $url = $_POST['espourl'] . '/api/v1/' .  $entity . '?maxSize=1';
+    $url = esc_url( $_POST['espourl'] . '/api/v1/' .  $entity . '?maxSize=1' );
     $response = wp_remote_get( $url, [
         'headers' => [
-        'X-Api-Key' => $_POST['espo_key']
+        'X-Api-Key' => esc_html( $_POST['espo_key'] )
     ]]);
 
     return $response;

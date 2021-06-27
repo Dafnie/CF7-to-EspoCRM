@@ -91,7 +91,8 @@ function _fetch_fields( $settings, $entity ) {
             }
             if ( substr( $key, 0, 4 ) == substr( $entity, 0, 4 ) ) {
                 if ( $field != 'none' ) {
-                    $fields[$field] = $_POST[str_replace( $entity, '', $key )];
+                    $key = esc_html( $_POST[str_replace( $entity, '', $key )] );
+                    $fields[$field] = $_key;
                 }
             }
         }
