@@ -71,8 +71,7 @@ You are free to join this development of this plugin. Create a new branch or mak
 Branches:
 * *develop* - Testing new features. new features should be pushed to this branch;
 * *master* – develop branch
-* *stable* – last stable release.
 
 ### License
 
-CF7_to_EspoCRM_integrator is published under the GNU GPLv3
+Wordpress CF7 to EspoCRM is published under the GNU GPLv3
