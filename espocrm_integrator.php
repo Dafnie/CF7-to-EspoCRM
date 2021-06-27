@@ -39,11 +39,11 @@ register_activation_hook( __FILE__, function() {
 } );
 
 add_action( 'admin_enqueue_scripts', function() {
-    wp_enqueue_style( 'csscf7espo', plugin_dir_url( __FILE__ ) . 'admin/css/style.css', false, '1.0' );
-    wp_enqueue_script( 'jscf7espo', plugin_dir_url( __FILE__ ) . 'admin/js/script.js', ['jquery'], '1.0' );
+    wp_enqueue_style( 'csscf7espo', plugin_dir_url( __FILE__ ) . 'theme/admin/css/style.css', false, '1.0' );
+    wp_enqueue_script( 'jscf7espo', plugin_dir_url( __FILE__ ) . 'theme/admin/js/script.js', ['jquery'], '1.0' );
 } );
 
 // The setting panel in the CF7 form-setting
-include_once('admin/espo_settings.php');
+include_once('theme/admin/espo_settings.php');
 // Code for sending data to EspoCRM
-include_once('admin/remote.php');
+include_once('remote.php');

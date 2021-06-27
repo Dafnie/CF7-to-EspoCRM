@@ -4,8 +4,6 @@
 if( !defined( 'ABSPATH' ) ) exit;
 
 
-
-
 $form_fields = wpcf7_get_current_contact_form();
 $cf7_fields = WPCF7_ContactForm::get_current()->scan_form_tags();
 $settings = get_option('cf7toespo-' . $form_fields->id);

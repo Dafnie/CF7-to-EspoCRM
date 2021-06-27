@@ -7,7 +7,7 @@ add_filter( "wpcf7_editor_panels" ,function($panels) {
        $panels["espo_panel"] = [
         'title'    => __( 'EspoCRM Integration' , 'wptoespo' ),
         'callback' => function () {           
-            require_once( plugin_dir_path(__DIR__) . '/theme/admin.php');
+            require_once( plugin_dir_path(__DIR__) . '/admin/admin.php');
     }
     ];
 
