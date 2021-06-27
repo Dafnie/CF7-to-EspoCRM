@@ -43,6 +43,7 @@ add_action( 'admin_enqueue_scripts', function() {
     wp_enqueue_script( 'jscf7espo', plugin_dir_url( __FILE__ ) . 'theme/admin/js/script.js', ['jquery'], '1.0' );
 } );
 
+
 // The setting panel in the CF7 form-setting
 include_once('theme/admin/espo_settings.php');
 // Code for sending data to EspoCRM

@@ -3,18 +3,13 @@
 
 if( !defined( 'ABSPATH' ) ) exit;
 
-
 $form_fields = wpcf7_get_current_contact_form();
 $cf7_fields = WPCF7_ContactForm::get_current()->scan_form_tags();
 $settings = get_option('cf7toespo-' . $form_fields->id);
 
 ?>
-
-<a class="donate" href="https://www.paypal.com/donate/?cmd=_donations&business=gjeddec@gmail.com">
-
-    <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/btn/btn_donate_LG.gif" />
-</a>
-
+<a class="float-right button-secondary" href="https://www.paypal.com/donate/?cmd=_donations&business=gjeddec@gmail.com"><?php _e( 'DONATE' , 'wptoespo' ); ?></a>
+<a class="float-right button-primary" href="https://github.com/Dafnie/CF7-to-EspoCRM"><?php _e( 'HELP' , 'wptoespo' ); ?></a>
     <h2><?php _e('Contact Form 7 to EspoCRM integration', 'wptoespo'); ?></h2>
 
     <label> 
@@ -40,8 +35,8 @@ value=<?=$settings['espourl']; ?> >
     <label>
         <?php _e( 'Contact Form 7 to EspoCRM entity:' , 'wptoespo' );?> </br>
         <select name="parent" id="espo_type">
-            <option value="Contact" <?=($settings['entity'] == 'Contact') ? 'selected' : '' ?> >Contact</option>
-            <option value="Lead" <?=($settings['entity'] == 'Lead') ? 'selected' : '' ?> >Lead</option>
+            <option value="Contact" <?=($settings['parent'] == 'Contact') ? 'selected' : '' ?> >Contact</option>
+            <option value="Lead" <?=($settings['parent'] == 'Lead') ? 'selected' : '' ?> >Lead</option>
         </select>  
     </label></br></br>
 

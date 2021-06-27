@@ -15,7 +15,7 @@ License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Contact form 7 to EspoCRM is a plugin for CMS [Wordpress](https://wordpress.org)
 The plugin adds a tab to the [CF7 plugin](https://contactform7.com/)(Contact Form 7) settings, giving an option to send the CF7 formdata to your EspoCRM page.
 - Integrate one or many CF7 forms.
-- Uses EspoCRM Api key (https://docs.espocrm.com/development/api/#authentication) to secure your POST data
+- Uses [EspoCRM Api key](https://docs.espocrm.com/development/api/#authentication) to secure your POST data
 - Pair the fields from Wordpress CF7 to EspoCRM
 
 
