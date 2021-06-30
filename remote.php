@@ -11,10 +11,9 @@ add_filter( 'wpcf7_skip_mail', function( $skip_mail, $contact_form ){
 // Send data to EspoCRM 
 add_action( 'wpcf7_before_send_mail', function( $contact_form ) {
 
-
     $settings = get_option('cf7toespo-' . $contact_form->id);
 
-    //Search for duplicate in EspoCRM if set
+    //Search for duplicate if set
     if ($settings['duplicate'] != "off") {
         $form_value = esc_html( $_POST[str_replace( 'cf7_', '', $settings['duplicate'] )] );
         $espo_field = $settings['mapping'][ 'parent_' . $settings['duplicate'] ];
@@ -84,6 +83,9 @@ add_action( 'wpcf7_before_send_mail', function( $contact_form ) {
 
 function cf7espo_fetch_fields( $settings, $entity ) {
 
+    $submission = WPCF7_Submission::get_instance();
+    $posted_data = $submission->get_posted_data();
+
     $fields = [];
         //Build array with field data
         foreach ( $settings as $key=>$field ) {
@@ -99,7 +101,7 @@ function cf7espo_fetch_fields( $settings, $entity ) {
             }
             if ( substr( $key, 0, 4 ) == substr( $entity, 0, 4 ) ) {
                 if ( $field != 'none' ) {
-                    $key = $_POST[str_replace( $entity, '', $key )];
+                    $key = $posted_data[str_replace( $entity, '', $key )];
                     $fields[$field] = $key;
                 }
             }
