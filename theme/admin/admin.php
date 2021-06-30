@@ -17,6 +17,11 @@ $settings = get_option('cf7toespo-' . $form_fields->id);
         <?php _e( ' Send to EspoCRM', 'wptoespo' ); ?></br></br>
     </label>
 
+    <label> 
+        <input type="checkbox" id="email_disable" name="email_disable" <?php echo ($settings['email_disable']) ? 'checked' : '' ?> />
+        <?php _e( ' Disabling sending email on form submit', 'wptoespo' ); ?></br></br>
+    </label>
+
     <label>
         <?php _e( 'EspoCRM url:' , 'wptoespo' );?></br>
         <input type="text" id="espo_url" name="espourl" class="large-text"
@@ -164,7 +169,7 @@ function cf7espo_mapping($type) {
                                 $disable = ( in_array($key, constant('CF7_ESPO_IGNORE_fIELD')) ) ? 'disabled' : ''; // disable some Espo options
                                 $selected = ($field_setting == $key) ? 'selected' : '';
 
-                                echo wp_kses( '<option value="' . $key . '"' . $disable . ' ' . $selected . ' >' . $key . '</option>', ['option'] );
+                                echo '<option value="' . $key . '"' . $disable . ' ' . $selected . ' >' . $key . '</option>', ['option'];
                             } ?>
                         </select>
                     </td>

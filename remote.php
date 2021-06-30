@@ -1,8 +1,16 @@
 <?php
 if( !defined( 'ABSPATH' ) ) exit;
 
+
+add_filter( 'wpcf7_skip_mail', function( $skip_mail, $contact_form ){
+    $settings = get_option('cf7toespo-' . $contact_form->id);
+    return $settings['email_disable']; // return true will skip email
+}, 10, 2 );
+
+
 // Send data to EspoCRM 
 add_action( 'wpcf7_before_send_mail', function( $contact_form ) {
+
 
     $settings = get_option('cf7toespo-' . $contact_form->id);
 
@@ -91,8 +99,8 @@ function cf7espo_fetch_fields( $settings, $entity ) {
             }
             if ( substr( $key, 0, 4 ) == substr( $entity, 0, 4 ) ) {
                 if ( $field != 'none' ) {
-                    $key = esc_html( $_POST[str_replace( $entity, '', $key )] );
-                    $fields[$field] = $_key;
+                    $key = $_POST[str_replace( $entity, '', $key )];
+                    $fields[$field] = $key;
                 }
             }
         }
