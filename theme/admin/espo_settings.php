@@ -18,6 +18,8 @@ add_filter( "wpcf7_editor_panels" ,function($panels) {
 // Saves settings after save
 add_action( 'wpcf7_after_save', function( $instance ) {
 
+
+
     $error = new WP_Error();
     
     $response = cf7espo_fetch_espokeys( esc_html( $_POST['parent'] ) );

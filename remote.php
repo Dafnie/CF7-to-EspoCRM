@@ -2,9 +2,10 @@
 if( !defined( 'ABSPATH' ) ) exit;
 
 
+// return true will skip email
 add_filter( 'wpcf7_skip_mail', function( $skip_mail, $contact_form ){
     $settings = get_option('cf7toespo-' . $contact_form->id);
-    return $settings['email_disable']; // return true will skip email
+    return $settings['email_disable']; 
 }, 10, 2 );
 
 
@@ -13,9 +14,16 @@ add_action( 'wpcf7_before_send_mail', function( $contact_form ) {
 
     $settings = get_option('cf7toespo-' . $contact_form->id);
 
+    if (!$settings['espo_enable']) {
+        return;
+    }
+
+    $submission = WPCF7_Submission::get_instance();
+    $posted_data = $submission->get_posted_data();
+
     //Search for duplicate if set
     if ($settings['duplicate'] != "off") {
-        $form_value = esc_html( $_POST[str_replace( 'cf7_', '', $settings['duplicate'] )] );
+        $form_value = $posted_data[str_replace( 'cf7_', '', $settings['duplicate'] )];
         $espo_field = $settings['mapping'][ 'parent_' . $settings['duplicate'] ];
         $param = [
             'headers' => [
@@ -41,9 +49,9 @@ add_action( 'wpcf7_before_send_mail', function( $contact_form ) {
     }
     
     // Send the main entity
-    if ( $response_body->total == 0 || $settings['duplicate'] == 'off' ) { //Only create if EspoCRM response 0
+    if ( $response_body->total == 0 || $settings['duplicate'] == 'off' ) { // Only create if the data in duplicate is not found
 
-       $fields = cf7espo_fetch_fields( $settings['mapping'], 'parent_' );
+       $fields = cf7espo_fetch_fields( $settings['mapping'], 'parent_', $posted_data );
 
         $args = [
             'body' => wp_json_encode($fields),
@@ -59,21 +67,23 @@ add_action( 'wpcf7_before_send_mail', function( $contact_form ) {
         $parentid = $parent_body->id;
     }
 
-    // Cteate the child entity  
-    $fields = cf7espo_fetch_fields( $settings['mapping'], 'child_' );
-    $body = array_merge([
-        'parentId' => $parentid,
-        'parentType' => $settings['parent']
-    ],
-    $fields );
+    // Cteate the child entity
+    if ( $settings['child'] != 'None' ) { // Only create if cild setting is not None
+        $fields = cf7espo_fetch_fields( $settings['mapping'], 'child_', $posted_data );
+        $body = array_merge([
+            'parentId' => $parentid,
+            'parentType' => $settings['parent']
+        ],
+        $fields );
 
-    $args = [
-        'body' => wp_json_encode( $body ),
-        'headers' => [
-            'Content-Type' => 'application/json',
-            'X-Api-Key' => $settings['espo_key']
-        ]
-    ];
+        $args = [
+            'body' => wp_json_encode( $body ),
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'X-Api-Key' => $settings['espo_key']
+            ]
+        ];
+    }
 
     $url = $settings['espourl'] . '/api/v1/' .  $settings['child'];
     $a_response = wp_remote_post( $url, $args );
@@ -81,10 +91,7 @@ add_action( 'wpcf7_before_send_mail', function( $contact_form ) {
 }, 10, 1 );
 
 
-function cf7espo_fetch_fields( $settings, $entity ) {
-
-    $submission = WPCF7_Submission::get_instance();
-    $posted_data = $submission->get_posted_data();
+function cf7espo_fetch_fields( $settings, $entity, $posted_data ) {
 
     $fields = [];
         //Build array with field data
