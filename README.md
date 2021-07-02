@@ -24,7 +24,7 @@ The plugin adds a tab to the [CF7 plugin](https://contactform7.com/)(Contact For
 1. Install and activate [Contact form 7](https://da.wordpress.org/plugins/contact-form-7/) plugin
 2. Install and activate [Wordpress to EspoCRM](https://da.wordpress.org/plugins/EspoCRM_integration/)
 3. Create a Concact form 7 form or edit a existing one and save to fetch form fields
-4. Klik the EspoCRM Integration tab.
+4. Click the EspoCRM Integration tab.
 5. Enable 'Send to EspoCRM'
 5. Enter the full URL to your EspoCRM instance
 6. Enter the API Key from your EspoCRM instance
