@@ -180,6 +180,6 @@ function cf7espo_mapping($type) {
 
             ?> </table>
             <button class="button-primary add_field" data-id="<?php echo $type; ?>">-> Add static field</button>
-            <span class='info'><i> <?php _e('INFO: Saving empty fields will remove the fields', 'wptoespo'); ?></i></span>
+            <span class='info'><i> <?php _e('Saving empty static fields will remove the fields', 'wptoespo'); ?></i></span>
             <?php
 }

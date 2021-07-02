@@ -51,7 +51,8 @@ The plugin adds a tab to the [CF7 plugin](https://contactform7.com/)(Contact For
 - Add to errorlog when REST fail
 - Optional send email when REST fail
 - Send wordpress data to EspoCRM field
-- Optional assign entity to a team 
+- Optional assign entity to a team
+- Refactor the setttings to use the CF7 posttype instead of wordpress option
 
 ### Requirements
 

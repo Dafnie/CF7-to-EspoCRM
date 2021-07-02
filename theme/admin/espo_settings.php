@@ -15,14 +15,14 @@ add_filter( "wpcf7_editor_panels" ,function($panels) {
 }, 1, 1);
 
 
+
+
 // Saves settings after save
 add_action( 'wpcf7_after_save', function( $instance ) {
 
-
-
     $error = new WP_Error();
     
-    $response = cf7espo_fetch_espokeys( esc_html( $_POST['parent'] ) );
+    $response = cf7espo_fetch_espokeys( sanitize_key( $_POST['parent'] ) );
     if( is_wp_error($response) ) {
         $error->add( 'bad_url', $response->get_error_messages()[0] );
     } elseif ( $response['response']['code'] == 401 ) {
@@ -33,7 +33,7 @@ add_action( 'wpcf7_after_save', function( $instance ) {
         $parent_body = json_decode( $response['body'], true );
     }
     
-    $response = cf7espo_fetch_espokeys( esc_html( $_POST['child'] ) );
+    $response = cf7espo_fetch_espokeys( sanitize_key( $_POST['child'] ) );
     if ( !$error->has_errors() ) {
         $child_body = json_decode( $response['body'], true );
     }
@@ -58,13 +58,13 @@ add_action( 'wpcf7_after_save', function( $instance ) {
         'espo_enable' => isset($_POST['espo_enable']),
         'email_disable' => isset($_POST['email_disable']),
         'espourl' => esc_url( $_POST['espourl'], ['http', 'https'] ),
-        'espo_key' => esc_html( $_POST['espo_key'] ) ,
-        'parent' => esc_html( $_POST['parent'] ),
-        'child' => esc_html( $_POST['child'] ),
+        'espo_key' => sanitize_key( $_POST['espo_key'] ) ,
+        'parent' => sanitize_text_field( $_POST['parent'] ),
+        'child' => sanitize_text_field( $_POST['child'] ),
         'parent_espofilds' => $parent_body['list'],
         'child_espofilds' => $child_body['list'],
         'mapping' => array_map( 'esc_html', $fields ),
-        'duplicate' => esc_html( $_POST['duplicate'] ),
+        'duplicate' => sanitize_text_field( $_POST['duplicate'] ),
         'error' => ( is_wp_error($error) ) ? $error->get_error_messages() : ''
     ];
 
@@ -82,7 +82,7 @@ add_action('before_delete_post', function($postid, $postobject) {
 
 // Admin Notices
 add_action( 'wpcf7_admin_notices', function() {
-    $option = get_option( 'cf7toespo-' . esc_html( $_GET['post'] ) );
+    $option = get_option( 'cf7toespo-' . sanitize_key( $_GET['post'] ) );
 
     if ($option['error']) {
         echo '<div class="error"> <p>' . __( 'Ops, something went wrong.', 'wptoespo' ) . '</p>';
@@ -99,7 +99,7 @@ function cf7espo_fetch_espokeys( $entity ) {
     $url = esc_url( $_POST['espourl'] . '/api/v1/' .  $entity . '?maxSize=1' );
     $response = wp_remote_get( $url, [
         'headers' => [
-        'X-Api-Key' => esc_html( $_POST['espo_key'] )
+        'X-Api-Key' => sanitize_key( $_POST['espo_key'] )
     ]]);
 
     return $response;
