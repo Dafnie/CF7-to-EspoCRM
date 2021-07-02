@@ -56,7 +56,6 @@ add_action( 'wpcf7_after_save', function( $instance ) {
 
     $data = [
         'espo_enable' => isset($_POST['espo_enable']),
-        'email_disable' => isset($_POST['email_disable']),
         'espourl' => esc_url( $_POST['espourl'], ['http', 'https'] ),
         'espo_key' => sanitize_key( $_POST['espo_key'] ) ,
         'parent' => sanitize_text_field( $_POST['parent'] ),

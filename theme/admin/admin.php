@@ -18,8 +18,7 @@ $settings = get_option('cf7toespo-' . $form_fields->id);
     </label>
 
     <label> 
-        <input type="checkbox" id="email_disable" name="email_disable" <?php echo ($settings['email_disable']) ? 'checked' : '' ?> />
-        <?php _e( ' Disabling sending email on form submit', 'wptoespo' ); ?></br></br>
+        <?php _e( 'Add <strong>skip_mail: on</strong> to the Additional Settings tab to disabling email on form submit', 'wptoespo' ); ?></br></br>
     </label>
 
     <label>
