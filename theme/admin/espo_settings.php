@@ -44,14 +44,14 @@ add_action( 'wpcf7_after_save', function( $instance ) {
         $arg = [];
         $arg = strpos($key, 'parent_') === 0;
         $arg .= strpos($key, 'child_') === 0;
-        return $arg;  //prefix added to identifi the form fields
-    }, ARRAY_FILTER_USE_KEY);
+        return $arg;  //prefix added to identifing the form fields
+    }, ARRAY_FILTER_USE_KEY );
 
     //Remove input if empty
     $fields = array_filter($fields, function($value) {
         $arg = [];
         $arg = $value != '';
-        return $arg;  //prefix added to identifi the form fields
+        return $arg;
     } );
 
     $data = [
@@ -81,16 +81,24 @@ add_action('before_delete_post', function($postid, $postobject) {
 
 // Admin Notices
 add_action( 'wpcf7_admin_notices', function() {
-    $option = get_option( 'cf7toespo-' . sanitize_key( $_GET['post'] ) );
 
-    if ($option['error']) {
-        echo '<div class="error"> <p>' . __( 'Ops, something went wrong.', 'wptoespo' ) . '</p>';
-	echo '<ul>';
-		echo '<li> -> ' . implode( '</li><li>', $option['error'] ) . '</li>';
-	echo '</ul> </div>';
-    }
-    
-}, 10, 2 );
+    $optionId = 'cf7toespo-' . sanitize_key( $_GET['post'] );
+    $option = get_option( $optionId );
+
+    if ( $option['error'] ) {
+        ?>
+        <div class="error">
+         <p><?php _e( 'Ops, something went wrong.', 'wptoespo' ); ?></p>
+            <ul>
+                <li> -> <?php echo implode( '</li><li>', $option['error'] ); ?></li>
+            </ul>
+            <p><?php _e('EspoCRM-link has been disabled until there are no errors', 'wptoespo'); ?></p>
+        </div>
+        <?php
+        $option['espo_enable'] = false;
+        update_option( $optionId, $option );
+    }  
+} );
 
 
 function cf7espo_fetch_espokeys( $entity ) {
