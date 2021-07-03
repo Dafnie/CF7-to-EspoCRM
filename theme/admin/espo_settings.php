@@ -42,8 +42,8 @@ add_action( 'wpcf7_after_save', function( $instance ) {
     //Build array from fieldmapping
     $fields = array_filter($_POST, function($key) {
         $arg = [];
-        $arg = strpos($key, 'parent_') === 0;
-        $arg .= strpos($key, 'child_') === 0;
+        $arg = sanitize_key( strpos($key, 'parent_') === 0 );
+        $arg .= sanitize_key( strpos($key, 'child_') === 0 );
         return $arg;  //prefix added to identifing the form fields
     }, ARRAY_FILTER_USE_KEY );
 
@@ -92,7 +92,7 @@ add_action( 'wpcf7_admin_notices', function() {
             <ul>
                 <li> -> <?php echo implode( '</li><li>', $option['error'] ); ?></li>
             </ul>
-            <p><?php _e('EspoCRM-link has been disabled until there are no errors', 'wptoespo'); ?></p>
+            <p><?php _e('"Send to EspoCRM" has been disabled until there are no errors', 'wptoespo'); ?></p>
         </div>
         <?php
         $option['espo_enable'] = false;
