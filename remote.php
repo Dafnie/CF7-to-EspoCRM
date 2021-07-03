@@ -1,14 +1,6 @@
 <?php
 if( !defined( 'ABSPATH' ) ) exit;
 
-
-// return true will skip email
-// add_filter( 'wpcf7_skip_mail', function( $skip_mail, $contact_form ){
-//     $settings = get_option('cf7toespo-' . $contact_form->id);
-//     return $settings['email_disable']; 
-// }, 10, 2 );
-
-
 // Send data to EspoCRM 
 add_action( 'wpcf7_before_send_mail', function( $contact_form ) {
 

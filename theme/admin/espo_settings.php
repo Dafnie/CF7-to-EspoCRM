@@ -22,20 +22,31 @@ add_action( 'wpcf7_after_save', function( $instance ) {
 
     $error = new WP_Error();
     
-    $response = cf7espo_fetch_espokeys( sanitize_key( $_POST['parent'] ) );
+    $type = sanitize_key( $_POST['parent'] );
+    $response = cf7espo_fetch_espokeys( $type );
+
     if( is_wp_error($response) ) {
         $error->add( 'bad_url', $response->get_error_messages()[0] );
     } elseif ( $response['response']['code'] == 401 ) {
         $error->add( 'unauthorized', 'You are not authorized. Bad API key' );
+    } elseif ( $response['response']['code'] == 403 ) {
+        $error->add( 'No_entity', 'There are no data in Espo-type <strong>' . $type . '</strong>. There has to be at least one entity in your EspoCRM to fetch data' );
     }
 
     if ( !$error->has_errors() ) {
         $parent_body = json_decode( $response['body'], true );
     }
     
-    $response = cf7espo_fetch_espokeys( sanitize_key( $_POST['child'] ) );
-    if ( !$error->has_errors() ) {
-        $child_body = json_decode( $response['body'], true );
+    $type = sanitize_key( $_POST['child'] );
+    if ( $type != 'none') {
+        $response = cf7espo_fetch_espokeys( $type );
+        
+        if ( !$error->has_errors() ) {
+            $child_body = json_decode( $response['body'], true );
+        }
+        if ( $child_body['total'] == 0 ) {
+            $error->add( 'No_entity', 'There are no data in Espo-type <strong>' . $type . '</strong>. There has to be at least one entity in your EspoCRM to fetch data' );
+        }
     }
     
 
@@ -92,7 +103,7 @@ add_action( 'wpcf7_admin_notices', function() {
             <ul>
                 <li> -> <?php echo implode( '</li><li>', $option['error'] ); ?></li>
             </ul>
-            <p><?php _e('"Send to EspoCRM" has been disabled until there are no errors', 'wptoespo'); ?></p>
+            <p><?php _e('"Send to EspoCRM" has been disabled by the plugin', 'wptoespo'); ?></p>
         </div>
         <?php
         $option['espo_enable'] = false;
