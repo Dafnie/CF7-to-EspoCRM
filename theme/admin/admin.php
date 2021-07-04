@@ -44,8 +44,6 @@ value=<?php echo esc_url( $settings['espourl'] ); ?> >
         </select>  
     </label></br></br>
 
-
-  
     <?php _e( 'Map field the from wordpress to parent-entity in EspoCRM:' , 'wptoespo' ); ?>
 
     <?php //Field mapping
@@ -92,9 +90,13 @@ value=<?php echo esc_url( $settings['espourl'] ); ?> >
             cf7espo_mapping('child_');
         }
     } ?>
-    </br>
-    <hr>
+
+    <hr></br>
     <h3><?php _e('Error handling', 'wptoespo'); ?></h3>
+
+    <label> 
+        <?php _e( 'If WP_DEBUG is enabled an notice will be added to the log if submission fails', 'wptoespo' ); ?></br>
+    </label>
 
     <label>
         <?php _e( 'Message if submission to EspoCRM fail' , 'wptoespo' );?></br>
@@ -104,9 +106,9 @@ value=<?php echo esc_url( $settings['espourl'] ); ?> >
     </label>
 
     <label>
-        <?php _e( 'Fallback email' , 'wptoespo' );?></br>
-        <input type="text" id="error_email" name="error_email" class="large-text"
-            value="<?php echo esc_textarea( $settings['error_email'] ); ?>" >
+        <?php _e( 'Fallback email' , 'wptoespo' ); ?></br>
+        <input type="email" id="error_email" name="error_email" class="large-text"
+            value=<?php echo esc_textarea( $settings['error_email'] ); ?> >
         <p class="description" ><?php _e( 'Send form data to this email if sending to EspoCRM fails. <i>Leave blank for no email</i>' , 'wptoespo' ); ?></p> 
     </label>
 

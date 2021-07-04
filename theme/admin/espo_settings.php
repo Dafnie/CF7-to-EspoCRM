@@ -25,18 +25,18 @@ add_action( 'wpcf7_after_save', function( $instance ) {
     $type = sanitize_key( $_POST['parent'] );
     $response = cf7espo_fetch_espokeys( $type );
 
-    if( is_wp_error($response) ) {
+    if ( is_wp_error($response) ) {
         $error->add( 'bad_url', $response->get_error_messages()[0] );
     } elseif ( $response['response']['code'] == 401 ) {
-        $error->add( 'unauthorized', 'You are not authorized. Bad API key' );
+        $error->add( 'unauthorized', __('You are not authorized. Bad API key', 'wptoespo') );
     } elseif ( $response['response']['code'] == 403 ) {
-        $error->add( 'No_entity', 'There are no data in Espo-type <strong>' . $type . '</strong>. There has to be at least one entity in your EspoCRM to fetch data' );
+        $error->add( 'no_entity', __('There are no data in Espo-type <strong>' . $type . '</strong>. There has to be at least one entity in your EspoCRM to fetch data', 'wptoespo') );
     }
 
     if ( !$error->has_errors() ) {
         $parent_body = json_decode( $response['body'], true );
     }
-    
+
     $type = sanitize_key( $_POST['child'] );
     if ( $type != 'none') {
         $response = cf7espo_fetch_espokeys( $type );
@@ -45,10 +45,14 @@ add_action( 'wpcf7_after_save', function( $instance ) {
             $child_body = json_decode( $response['body'], true );
         }
         if ( $child_body['total'] == 0 ) {
-            $error->add( 'No_entity', 'There are no data in Espo-type <strong>' . $type . '</strong>. There has to be at least one entity in your EspoCRM to fetch data' );
+            $error->add( 'No_entity', __('There are no data in Espo-type <strong>' . $type . '</strong>. There has to be at least one entity in your EspoCRM to fetch data', 'wptoespo') );
         }
     }
-    
+
+    if ( !is_email( $_POST['error_email'] ) ) {
+        $error->add( 'malformattet email', __('The email is not at valid emailadress', 'wptoespo') );
+    }
+        
 
     //Build array from fieldmapping
     $fields = array_filter($_POST, function($key) {
