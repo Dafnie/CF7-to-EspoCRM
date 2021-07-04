@@ -40,17 +40,11 @@ add_action( 'wpcf7_before_send_mail', function( $contact_form, &$abort, $submiss
         $url = $settings['espourl'] . '/api/v1/' .  $settings['parent'];
 
         $response = wp_remote_get( $url, $param);
-
-        // Set errormessage if Espo not response 200
-        if ($response['response']['code'] != 200 && WP_DEBUG ) {
-
-            include( 'helpers/submit_error.php' );
-        }
     
-
+    }
         $response_body = json_decode( $response['body'] );
         $parentid = $response_body->list[0]->id;
-    }
+  
     
     // Send the main entity
     if ( $response_body->total == 0 || $settings['duplicate'] == 'off' ) { // Only create if the data in duplicate is not found
@@ -90,7 +84,13 @@ add_action( 'wpcf7_before_send_mail', function( $contact_form, &$abort, $submiss
     }
 
     $url = $settings['espourl'] . '/api/v1/' .  $settings['child'];
-    $a_response = wp_remote_post( $url, $args );
+    $response = wp_remote_post( $url, $args );
+
+    // Set errormessage if Espo not response 200
+    if ($response['response']['code'] != 200 && WP_DEBUG ) {
+
+        include( 'helpers/submit_error.php' );
+    }
 
 }, 10, 3 );
 
