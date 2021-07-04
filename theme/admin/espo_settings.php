@@ -75,7 +75,8 @@ add_action( 'wpcf7_after_save', function( $instance ) {
         'child_espofilds' => $child_body['list'],
         'mapping' => array_map( 'esc_html', $fields ),
         'duplicate' => sanitize_text_field( $_POST['duplicate'] ),
-        'error' => ( is_wp_error($error) ) ? $error->get_error_messages() : ''
+        'error' => ( is_wp_error($error) ) ? $error->get_error_messages() : '',
+        'form_error_message' => sanitize_text_field( $_POST['form_error_message'] )
     ];
 
     update_option( 'cf7toespo-' . $instance->id, $data );

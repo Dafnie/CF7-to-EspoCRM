@@ -93,6 +93,16 @@ value=<?php echo esc_url( $settings['espourl'] ); ?> >
         }
     } ?>
     </br>
+    <hr>
+    <h3><?php _e('Error handling', 'wptoespo'); ?></h3>
+
+    <label>
+        <?php _e( 'Message if submission to EspoCRM fail' , 'wptoespo' );?></br>
+        <input type="text" id="form_error_message" name="form_error_message" class="large-text"
+            value=<?php echo esc_html( $settings['form_error_message'] ); ?> >
+        <p class="description" ><?php _e( 'Is field is blank the user will get the standard success message' , 'wptoespo' ); ?></p> 
+    </label>
+
 
 <?php
 // Helper to display field mapping
