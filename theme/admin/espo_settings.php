@@ -76,7 +76,8 @@ add_action( 'wpcf7_after_save', function( $instance ) {
         'mapping' => array_map( 'esc_html', $fields ),
         'duplicate' => sanitize_text_field( $_POST['duplicate'] ),
         'error' => ( is_wp_error($error) ) ? $error->get_error_messages() : '',
-        'form_error_message' => sanitize_text_field( $_POST['form_error_message'] )
+        'form_error_message' => sanitize_text_field( $_POST['form_error_message'] ),
+        'error_email' => sanitize_text_field( $_POST['error_email'] )
     ];
 
     update_option( 'cf7toespo-' . $instance->id, $data );

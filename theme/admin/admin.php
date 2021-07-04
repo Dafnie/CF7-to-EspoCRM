@@ -99,8 +99,15 @@ value=<?php echo esc_url( $settings['espourl'] ); ?> >
     <label>
         <?php _e( 'Message if submission to EspoCRM fail' , 'wptoespo' );?></br>
         <input type="text" id="form_error_message" name="form_error_message" class="large-text"
-            value=<?php echo esc_html( $settings['form_error_message'] ); ?> >
+            value="<?php echo esc_textarea( $settings['form_error_message'] ); ?>" >
         <p class="description" ><?php _e( 'Is field is blank the user will get the standard success message' , 'wptoespo' ); ?></p> 
+    </label>
+
+    <label>
+        <?php _e( 'Fallback email' , 'wptoespo' );?></br>
+        <input type="text" id="error_email" name="error_email" class="large-text"
+            value="<?php echo esc_textarea( $settings['error_email'] ); ?>" >
+        <p class="description" ><?php _e( 'Send form data to this email if sending to EspoCRM fails. <i>Leave blank for no email</i>' , 'wptoespo' ); ?></p> 
     </label>
 
 
