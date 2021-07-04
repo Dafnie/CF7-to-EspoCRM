@@ -37,30 +37,14 @@ add_action( 'wpcf7_before_send_mail', function( $contact_form, &$abort, $submiss
             ]
         ];
         
-        $url = $settings['espourl'] . '/api/wv1/' .  $settings['parent'];
+        $url = $settings['espourl'] . '/api/v1/' .  $settings['parent'];
 
         $response = wp_remote_get( $url, $param);
 
         // Set errormessage if Espo not response 200
         if ($response['response']['code'] != 200 && WP_DEBUG ) {
 
-            // Change usermessage if not empty
-            // if( $settings['form_error_message'] ) {
-
-            //     add_filter('wpcf7_display_message', function($message, $status) {
-
-            //         $current_form = wpcf7_get_current_contact_form();
-            //         $settings = get_option('cf7toespo-' . $current_form->id);
-            //         $message = $settings['form_error_message'];
-
-            //     return $message;   
-            //     }, 10 ,2 );
-            // }
-
-            // trigger_error('EspoCRM at ' . $url . 'does not respond 200');
-            // return;
-
-            require( plugin_dir_path(__DIR__) . 'helpers/submit_error.php' );
+            include( 'helpers/submit_error.php' );
         }
     
 
