@@ -1,8 +1,12 @@
 <?php
 if( !defined( 'ABSPATH' ) ) exit;
 
+
+//Invalidate if error
+
+
 // Send data to EspoCRM 
-add_action( 'wpcf7_before_send_mail', function( $contact_form ) {
+add_action( 'wpcf7_before_send_mail', function( $contact_form, &$abort, $submission ) {
 
     $settings = get_option('cf7toespo-' . $contact_form->id);
 
@@ -10,7 +14,7 @@ add_action( 'wpcf7_before_send_mail', function( $contact_form ) {
         return;
     }
 
-    $submission = WPCF7_Submission::get_instance();
+    // $submission = WPCF7_Submission::get_instance();
     $posted_data = $submission->get_posted_data();
 
     //Search for duplicate if set
@@ -35,7 +39,20 @@ add_action( 'wpcf7_before_send_mail', function( $contact_form ) {
         
         $url = $settings['espourl'] . '/api/v1/' .  $settings['parent'];
 
-        $response = wp_remote_get( $url, $param);    
+        $response = wp_remote_get( $url, $param);
+
+        // Set errormessage if Espo not response 200
+        if ($response['response']['code'] != 200 && WP_DEBUG ) {
+
+            add_filter('wpcf7_display_message', function($message, $status) {
+                $message = __( 'Your message was not successfully sent to CRM', 'wptoespo' );
+            return $message;
+            }, 10 ,2 );
+
+            trigger_error('EspoCRM at ' . $url . 'does not respond 200');
+            return;
+        } 
+
         $response_body = json_decode( $response['body'] );
         $parentid = $response_body->list[0]->id;
     }
@@ -80,7 +97,7 @@ add_action( 'wpcf7_before_send_mail', function( $contact_form ) {
     $url = $settings['espourl'] . '/api/v1/' .  $settings['child'];
     $a_response = wp_remote_post( $url, $args );
 
-}, 10, 1 );
+}, 10, 3 );
 
 
 function cf7espo_fetch_fields( $settings, $entity, $posted_data ) {

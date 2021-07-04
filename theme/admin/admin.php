@@ -18,7 +18,7 @@ $settings = get_option('cf7toespo-' . $form_fields->id);
     </label>
 
     <label> 
-        <?php _e( 'Add <strong>skip_mail: on</strong> to the Additional Settings tab to disabling email on form submit', 'wptoespo' ); ?></br></br>
+        <?php _e( 'Add "skip_mail: on" to the Additional Settings tab to disabling email on form submit', 'wptoespo' ); ?></br></br>
     </label>
 
     <label>
