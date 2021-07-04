@@ -45,6 +45,10 @@ add_action( 'admin_enqueue_scripts', function() {
 } );
 
 
+add_shortcode( 'espo', function( $atts, $content = null ) {
+	return $content;
+} );
+
 // The setting panel in the CF7 form-setting
 include_once('theme/admin/espo_settings.php');
 // Code for sending data to EspoCRM

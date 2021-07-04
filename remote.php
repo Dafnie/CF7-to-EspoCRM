@@ -107,6 +107,12 @@ function cf7espo_fetch_fields( $settings, $entity, $posted_data ) {
             }
             //Rearange static field
             if (preg_match("/static$/", $key)) {
+
+                //Field contain shortcode?
+                if (has_shortcode( $field, 'espo' )) {
+                    include( 'helpers/shortcode.php' );
+                }
+
                 $fields[$settings[$key . '_espo']] = $field;
                 continue;
             }
