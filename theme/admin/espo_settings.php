@@ -33,7 +33,11 @@ add_action( 'wpcf7_after_save', function( $instance ) {
         $error->add( 'no_entity', __('There are no data in Espo-type <strong>' . $type . '</strong>. There has to be at least one entity in your EspoCRM to fetch data', 'wptoespo') );
     }
 
-    if ( !$error->has_errors() ) {
+    // if ( !$error->has_errors() ) {
+    //     $parent_body = json_decode( $response['body'], true );
+    // }
+
+    if ( $response['response']['code'] == 200 ) {
         $parent_body = json_decode( $response['body'], true );
     }
 
@@ -61,6 +65,21 @@ add_action( 'wpcf7_after_save', function( $instance ) {
         $arg .= sanitize_key( strpos($key, 'child_') === 0 );
         return $arg;  //prefix added to identifing the form fields
     }, ARRAY_FILTER_USE_KEY );
+
+    //Testing shortcode in custom field
+   foreach( $fields as $key=>$value ) {
+       if ( strpos($key, 'static') ) {
+        if (has_shortcode( $value, 'espo' )) {
+
+            $regex = get_shortcode_regex( ['espo'] );
+            preg_match_all( '/'.$regex.'/s', $value, $matches );
+
+            if ( !in_array( $matches[5][0], CF7_ESPO_ALLOWED_SHORTCODE_ATT) ) {
+                $error->add( 'malformattet email', __('The shotcode is malformated or not allowed', 'wptoespo') );
+            }
+        }
+       } 
+   }
 
     //Remove input if empty
     $fields = array_filter($fields, function($value) {

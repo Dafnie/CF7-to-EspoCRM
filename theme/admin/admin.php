@@ -47,7 +47,7 @@ value=<?php echo esc_url( $settings['espourl'] ); ?> >
     <?php _e( 'Map field the from wordpress to parent-entity in EspoCRM:' , 'wptoespo' ); ?>
 
     <?php //Field mapping
-        if ( empty($cf7_fields) || !$settings || $settings['error'] ) {
+        if ( empty($cf7_fields) || !$settings ) {
             _e( '<p class="regulat-text code red">Save to fetch fields</p>', 'wptoespo' );
         } else {
             cf7espo_mapping('parent_');
@@ -84,7 +84,7 @@ value=<?php echo esc_url( $settings['espourl'] ); ?> >
         <?php 
         if ( !($settings['child'] == 'None') ) {
         _e( 'Map field from wordpress to child-entity in EspoCRM:' , 'wptoespo' );
-        if ( empty($cf7_fields) || !$settings || $settings['error'] ) {
+        if ( empty($cf7_fields) || !$settings ) {
             _e( '<p class="regulat-text code red">Save to fetch fields</p>', 'wptoespo' );
         } else {
             cf7espo_mapping('child_');
