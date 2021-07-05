@@ -62,9 +62,3 @@ add_shortcode( 'espo', function( $atts, $content = null ) {
 include_once('theme/admin/espo_settings.php');
 // Code for sending data to EspoCRM
 include_once('remote.php');
-
-
-
-
-
-

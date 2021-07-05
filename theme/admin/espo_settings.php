@@ -33,10 +33,6 @@ add_action( 'wpcf7_after_save', function( $instance ) {
         $error->add( 'no_entity', __('There are no data in Espo-type <strong>' . $type . '</strong>. There has to be at least one entity in your EspoCRM to fetch data', 'wptoespo') );
     }
 
-    // if ( !$error->has_errors() ) {
-    //     $parent_body = json_decode( $response['body'], true );
-    // }
-
     if ( $response['response']['code'] == 200 ) {
         $parent_body = json_decode( $response['body'], true );
     }
@@ -45,7 +41,7 @@ add_action( 'wpcf7_after_save', function( $instance ) {
     if ( $type != 'none') {
         $response = cf7espo_fetch_espokeys( $type );
         
-        if ( !$error->has_errors() ) {
+        if ( $response['response']['code'] == 200 ) {
             $child_body = json_decode( $response['body'], true );
         }
         if ( $child_body['total'] == 0 ) {

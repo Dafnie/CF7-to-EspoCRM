@@ -41,18 +41,24 @@ The plugin adds a tab to the [CF7 plugin](https://contactform7.com/)(Contact For
 12. Map the fields as previously described in 8. to 9. 
 
 #### Advanced use
-**Assign the entity to a user**
+**Assign the created entity to a EspoCRM user**
 1. Go to http://YOUR_ESPOCRM.COM/#User and navigate to the user. The slug of the URL is the userId
 (Somethink like "5fdf45ce42eee0cbb")
 2. In the EspoCRM Integration tab add a static field. Enter the UserId from above.
 3. Map the value to assignedUserId
+**Send wordpress data to a EspoCRM field**
+1. Add a static field and insert the shortcode in the format "This data is from [espo]url[/espo]"
+2. Allowed value in shortcode are.
+   - 'description'
+   - 'url'
+   - 'admin_email'
+   - 'charset'
+   - 'version'
+   - 'language'
+
 
 <strong>*TODO:*</strong>
-- Add to errorlog when REST fail
-- Optional send email when REST fail
-- Send wordpress data to EspoCRM field
 - Optional assign entity to a team
-- Refactor the setttings to use the CF7 posttype instead of wordpress option
 
 ### Requirements
 
