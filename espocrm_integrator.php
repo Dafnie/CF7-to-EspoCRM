@@ -30,6 +30,16 @@ define('CF7_ESPO_IGNORE_fIELD', [
     'modifiedByName'
     ]);
 
+define('CF7_ESPO_ALLOWED_SHORTCODE_ATT', [
+    'name',
+    'description',
+    'url',
+    'admin_email',
+    'charset',
+    'version',
+    'language'
+]);
+
 
 register_activation_hook( __FILE__, function() {
     if ( !is_plugin_active( 'contact-form-7/wp-contact-form-7.php' ) ) {
@@ -43,7 +53,6 @@ add_action( 'admin_enqueue_scripts', function() {
     wp_enqueue_style( 'csscf7espo', plugin_dir_url( __FILE__ ) . 'theme/admin/css/style.css', false, '1.0' );
     wp_enqueue_script( 'jscf7espo', plugin_dir_url( __FILE__ ) . 'theme/admin/js/script.js', ['jquery'], '1.0' );
 } );
-
 
 add_shortcode( 'espo', function( $atts, $content = null ) {
 	return $content;
