@@ -1,10 +1,6 @@
 <?php
 if( !defined( 'ABSPATH' ) ) exit;
 
-
-//Invalidate if error
-
-
 // Send data to EspoCRM 
 add_action( 'wpcf7_before_send_mail', function( $contact_form, &$abort, $submission ) {
 
