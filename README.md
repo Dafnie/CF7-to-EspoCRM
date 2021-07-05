@@ -57,7 +57,7 @@ The plugin adds a tab to the [CF7 plugin](https://contactform7.com/)(Contact For
    - 'version'
    - 'language'
 
-<strong>*TODO:*</strong>
+***TODO:***
 - Optional assign entity to a team
 
 ### Requirements
@@ -76,7 +76,6 @@ Create an issue [here](https://github.com/Dafnie/espocrm_integrator/issues)
 You are free to join this development of this plugin. Create a new branch or make a feature request.
 
 Branches:
-* *develop* - Testing new features. new features should be pushed to this branch;
 * *master* – develop branch
 
 ### License
